@@ -20,7 +20,7 @@ mongoose
     .catch((err)=> console.log(err))
 
 app.use('/api/users', userRoute)
-app.use('/api/pins/', pinRoute)
+app.use('/api/pins', pinRoute)
 
 app.listen(8800, ()=>{
     console.log('Backend server is running!')
