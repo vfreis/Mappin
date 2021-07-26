@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+gconst mongoose = require('mongoose')
 
 const PinSchema = new mongoose.Schema({
     username: {
@@ -23,8 +23,15 @@ const PinSchema = new mongoose.Schema({
         require: true,
         min: 0,
         max: 5
+    },
+    lat: {
+        type: Number,
+        require: true
+    },
+    long: {
+        type: Number,
+        require: true
     }
-    
 },
     {timestamps: true}
 );
