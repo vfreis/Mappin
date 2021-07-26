@@ -18,6 +18,8 @@ mongoose
     })
     .catch((err)=> console.log(err))
 
+app.use('/api/pins/', pinRoute)
+
 app.listen(8800, ()=>{
     console.log('Backend server is running!')
 })
