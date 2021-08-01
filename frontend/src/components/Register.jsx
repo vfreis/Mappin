@@ -1,7 +1,6 @@
 import { Room, Cancel } from '@material-ui/icons'
 import { useState, useRef } from 'react';
 import axios from 'axios'
-import App from '../App'
 import './register.css'
 
 export default function Register({setShowRegister}) {
