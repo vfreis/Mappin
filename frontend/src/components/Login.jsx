@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import axios from 'axios'
 import './login.css'
 
-export default function Login({setShowLogin}) {
+export default function Login({setShowLogin, myStorage, setCurrentUser}) {
     const [error, setError] = useState(false)
     const usernameRef = useRef()
     const passwordRef = useRef()
@@ -17,7 +17,10 @@ export default function Login({setShowLogin}) {
         }
 
         try{
-            await axios.post('/users/login', user)
+            const res = await axios.post('/users/login', user)
+            myStorage.setItem('user', res.data.username)
+            setCurrentUser(res.data.username)
+            setShowLogin(false)
             setError(false)
         }catch(err) {
             setError(true)

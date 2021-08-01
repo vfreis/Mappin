@@ -8,7 +8,8 @@ import Register from './components/Register'
 import Login from './components/Login'
 
 function App() {
-	const [currentUser, setCurrentUser] = useState(null)
+	const myStorage = window.localStorage
+	const [currentUser, setCurrentUser] = useState(myStorage.getItem('user'))
 	const [pins, setPins] = useState([])
 	const [currentPlaceId, setCurrentPlaceId] = useState(null)
 	const [newPlace, setNewPlace] = useState(null)
@@ -72,6 +73,11 @@ function App() {
 	  }
   }
 
+  const handleLogout = () => {
+	  myStorage.removeItem('user')
+	  setCurrentUser(null)
+  }
+
   return (
     <div className="App">
       <ReactMapGL
@@ -87,8 +93,8 @@ function App() {
 			  <Marker
 			  latitude={p.lat} 
 			  longitude={p.long} 
-			  offsetLeft={-20} 
-			  offsetTop={-10}
+			  offsetLeft={-3.5 * viewport.zoom}
+              offsetTop={-7 * viewport.zoom}
 			  >
 
           <Room style={{fontSize: viewport.zoom * 7, color: p.username===currentUser?'tomato' : 'slateblue', cursor:"pointer"
@@ -102,8 +108,8 @@ function App() {
 			longitude={p.long}
 			closeButton={true}
 			closeOnClick={false}
-			anchor="left" 
 			onClose={()=>setCurrentPlaceId(null)}
+			anchor="left" 
 			>
 			<div className="card">
 			<label>Place</label>
@@ -132,9 +138,9 @@ function App() {
 				latitude={newPlace.lat}
 				longitude={newPlace.long}
 				closeButton={true}
-				closeOnClick={true}
-				anchor="left" 
+				closeOnClick={false}
 				onClose={()=>setNewPlace(null)}
+				anchor="left" 
 				>
 					<div>
 						 <form onSubmit={handleSubmit}>
@@ -163,7 +169,7 @@ function App() {
 
 	)}
 
-	{currentUser ? (<button className="button logout" >Log out</button>) : (
+	{currentUser ? (<button className="button logout" onClick={handleLogout}>Log out</button>) : (
 
 		<div className="buttons">
 			<button className="button login" onClick={() => setShowLogin(true)} >Log In</button>
@@ -173,7 +179,7 @@ function App() {
 	)}
 
 	{showRegister && <Register setShowRegister={setShowRegister}/>}
-	{showLogin && <Login setShowLogin={setShowLogin} />}
+	{showLogin && <Login setShowLogin={setShowLogin} myStorage={myStorage} setCurrentUser={setCurrentUser} />}
 		</ReactMapGL>
     </div>
   );
